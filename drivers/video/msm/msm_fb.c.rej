@@ -1,0 +1,11 @@
+--- drivers/video/msm/msm_fb.c
++++ drivers/video/msm/msm_fb.c
+@@ -1769,6 +1769,8 @@
+ 	}
+ 
+ 	if (mfd->op_enable == 0) {
++		if (info->node == 2)
++			return -EPERM;
+ 		/* if system is in suspend mode, do not unblank */
+ 		mfd->ref_cnt++;
+ 		return 0;

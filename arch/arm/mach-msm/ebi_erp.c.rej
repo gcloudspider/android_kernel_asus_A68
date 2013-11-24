@@ -1,0 +1,20 @@
+--- arch/arm/mach-msm/ebi_erp.c
++++ arch/arm/mach-msm/ebi_erp.c
+@@ -1,4 +1,4 @@
+-/* Copyright (c) 2012, The Linux Foundation. All rights reserved.
++/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2 and
+@@ -116,6 +119,11 @@
+ 	err_cntl |= CNTL_CLEAR_ERR;
+ 	writel_relaxed(err_cntl, base + SLV_ERR_CNTL);
+ 	mb();	/* Ensure interrupt is cleared before returning */
++
++	if ((err_apacket0 & AMID_MASK) == 0x00000102)
++		trace_usb_daytona_invalid_access(err_addr, err_apacket0,
++							 err_apacket1);
++
+ 	return IRQ_HANDLED;
+ }
+ 
